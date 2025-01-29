@@ -1,0 +1,34 @@
+created:
+    - database/factories/CarFactory.php
+    - database/factories/CarImageFactory.php
+    - database/factories/CustomerFactory.php
+    - database/factories/ManufactureFactory.php
+    - database/factories/RoleFactory.php
+    - database/factories/SettingFactory.php
+    - database/factories/TransactionFactory.php
+    - database/factories/UserFactory.php
+    - database/migrations/2025_01_29_183549_create_cars_table.php
+    - database/migrations/2025_01_29_183550_create_car_images_table.php
+    - database/migrations/2025_01_29_183551_create_customers_table.php
+    - database/migrations/2025_01_29_183552_create_manufactures_table.php
+    - database/migrations/2025_01_29_183553_create_roles_table.php
+    - database/migrations/2025_01_29_183554_create_settings_table.php
+    - database/migrations/2025_01_29_183555_create_transactions_table.php
+    - database/migrations/2025_01_29_183556_create_users_table.php
+    - app/Models/Car.php
+    - app/Models/CarImage.php
+    - app/Models/Customer.php
+    - app/Models/Manufacture.php
+    - app/Models/Role.php
+    - app/Models/Setting.php
+    - app/Models/Transaction.php
+    - app/Models/User.php
+models:
+    Car: { manufacture_id: 'foreign:manufactures.id', name: string, license_number: string, color: string, year: string, status: string, price: 'integer nullable', penalty: 'integer nullable', timestamps: timestamps, relationships: { hasMany: 'transactions, car_images' } }
+    CarImage: { image: text, car_id: 'foreign:cars.id', timestamps: timestamps }
+    Customer: { name: string, slug: string, nik: string, sex: string, address: 'text nullable', phone_number: string, email: string, deleted_at: 'timestamp nullable', timestamps: timestamps, relationships: { hasMany: transactions } }
+    Manufacture: { name: string, timestamps: timestamps, relationships: { hasMany: cars } }
+    Role: { name: string, timestamps: timestamps, relationships: { hasMany: users } }
+    Setting: { name: 'string nullable', slug: 'string nullable', description: 'text nullable', type: 'string nullable', deleted_at: 'timestamp nullable', timestamps: timestamps }
+    Transaction: { customer_id: 'foreign:customers.id', car_id: 'foreign:cars.id', invoice_no: string, rent_date: 'datetime nullable', back_date: 'datetime nullable', return_date: 'datetime nullable', price: 'integer nullable', amount: 'integer nullable', penalty: 'integer nullable', status: string, deleted_at: 'timestamp nullable', timestamps: timestamps }
+    User: { role_id: 'foreign:roles.id', name: string, username: string, email: string, email_verified_at: 'timestamp nullable', password: string, remember_token: 'string nullable length:100', deleted_at: 'timestamp nullable', timestamps: timestamps }

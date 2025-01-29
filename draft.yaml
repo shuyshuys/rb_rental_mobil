@@ -1,0 +1,71 @@
+models:
+  Car:
+    manufacture_id: foreign:manufactures.id
+    name: string 
+    license_number: string 
+    color: string 
+    year: string 
+    status: string 
+    price: integer nullable
+    penalty: integer nullable
+    timestamps
+    relationships:
+      hasMany: transaction, car_image
+
+  CarImage:
+    image: text
+    car_id: foreign:cars.id
+    timestamps
+
+  Customer:
+    name: string  
+    nik: string 
+    sex: string 
+    address: text nullable
+    phone_number: string 
+    email: string 
+    timestamps
+    relationships:
+      hasMany: transaction
+
+  Manufacture:
+    name: string 
+    timestamps
+    relationships:
+      hasMany: car
+
+  Role:
+    name: string
+    timestamps
+    relationships:
+      hasMany: user
+
+  Setting:
+    name: string nullable
+    slug: string nullable
+    description: text nullable
+    type: string nullable
+    timestamps
+
+  Transaction:
+    customer_id: foreign:customers.id
+    car_id: foreign:cars.id
+    invoice_no: string 
+    rent_date: datetime nullable
+    back_date: datetime nullable
+    return_date: datetime nullable
+    price: integer nullable
+    amount: integer nullable
+    penalty: integer nullable
+    status: string 
+    timestamps
+
+  User:
+    role_id: foreign:roles.id
+    name: string
+    username: string
+    email: string
+    email_verified_at: timestamp nullable
+    password: string
+    remember_token: string nullable length:100
+    timestamps
