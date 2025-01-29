@@ -35,6 +35,11 @@ Generate the application key:
 php artisan key:generate
 ```
 
+Enable Storage Linking
+```sh
+php artisan storage:link
+```
+
 ### 4. Configure Database
 Update your .env file with your database credentials:
 ```env
