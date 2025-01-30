@@ -48,8 +48,25 @@
 </head>
 
 <body>
+    <nav class="bg-gray-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="{{ url('/') }}" class="text-white text-lg font-bold">Perentalan Mobil</a>
+            <div>
+                @auth
+                    <span class="text-white mr-4">Hello, {{ Auth::user()->name }}</span>
+                    {{-- <a href="{{ route('logout') }}" class="text-white"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a> --}}
+                    {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                    </form> --}}
+                @else
+                    <a href="{{ route('login') }}" class="text-white mr-4">Login</a>
+                    <a href="{{ route('register') }}" class="text-white">Register</a>
+                @endauth
+            </div>
+        </div>
+    </nav>
     <div class="container mx-auto mt-8">
-        <h1 class="text-2xl font-bold mb-4">Perentalan Mobil</h1>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($cars as $car)
                 <div class="bg-white shadow-md rounded-lg overflow-hidden relative">
