@@ -19,7 +19,8 @@ class SettingPolicy
     public function viewAny(User $user)
     {
         // Allow access if the user's role is not 3
-        return $user->role_id !== 3;
+        // return $user->role_id !== 3;
+        return false;
     }
 
     /**

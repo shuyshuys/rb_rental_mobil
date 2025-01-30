@@ -31,7 +31,7 @@ class ManufacturePolicy
      */
     public function view(User $user, Manufacture $manufacture)
     {
-        //
+        return true;
     }
 
     /**
@@ -42,7 +42,7 @@ class ManufacturePolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -54,7 +54,7 @@ class ManufacturePolicy
      */
     public function update(User $user, Manufacture $manufacture)
     {
-        //
+        return true;
     }
 
     /**
@@ -66,7 +66,7 @@ class ManufacturePolicy
      */
     public function delete(User $user, Manufacture $manufacture)
     {
-        //
+        return true;
     }
 
     /**

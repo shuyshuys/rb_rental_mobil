@@ -42,7 +42,7 @@ class CarPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -54,7 +54,7 @@ class CarPolicy
      */
     public function update(User $user, Car $car)
     {
-        //
+        return true;
     }
 
     /**
@@ -66,7 +66,7 @@ class CarPolicy
      */
     public function delete(User $user, Car $car)
     {
-        //
+        return true;
     }
 
     /**

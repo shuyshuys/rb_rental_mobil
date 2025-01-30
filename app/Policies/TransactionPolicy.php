@@ -58,7 +58,7 @@ class TransactionPolicy
     public function update(User $user, Transaction $transaction)
     {
         // Define your logic for updating transactions
-        return true;
+        return false;
     }
 
     /**
