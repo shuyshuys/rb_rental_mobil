@@ -11,12 +11,16 @@ use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Grid;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\TransactionResource\Pages;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 use App\Filament\Resources\TransactionResource\RelationManagers;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
+use AlperenErsoy\FilamentExport\Actions\FilamentExportHeaderAction;
 
 class TransactionResource extends Resource
 {
@@ -79,7 +83,17 @@ class TransactionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('invoice_no'),
-                Tables\Columns\TextColumn::make('status'),
+                Tables\Columns\SelectColumn::make('status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'processing' => 'Processing',
+                        'rented' => 'Rented',
+                        'returned' => 'Returned',
+                    ])
+                    ->inline()
+                    ->sortable()
+                    ->searchable()
+                    ->disabled(fn($record) => auth()->user()->role_id === 3),
                 Tables\Columns\TextColumn::make('customer.name'),
                 Tables\Columns\TextColumn::make('car_details')
                     ->label('Car Details')
@@ -87,26 +101,65 @@ class TransactionResource extends Resource
                         return $record->car->manufacture->name . ' ' . $record->car->name . ' ' . $record->car->year;
                     }),
                 Tables\Columns\TextColumn::make('rent_date')
-                    ->dateTime(),
+                    ->date(),
                 Tables\Columns\TextColumn::make('back_date')
-                    ->dateTime(),
+                    ->date(),
                 Tables\Columns\TextColumn::make('return_date')
-                    ->dateTime()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('price')->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('amount')->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('penalty')->toggleable(isToggledHiddenByDefault: true),
+                    ->date(),
+                Tables\Columns\TextColumn::make('price')->toggleable(fn() => auth()->user()->role_id !== 3),
+                Tables\Columns\TextColumn::make('amount')->toggleable(fn() => auth()->user()->role_id !== 3),
+                Tables\Columns\TextColumn::make('penalty')->toggleable(fn() => auth()->user()->role_id !== 3),
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\Action::make('confirmReturn')
+                    ->label('Confirm Return')
+                    ->action(function (Transaction $record) {
+                        $today = now();
+                        $rentDate = $record->rent_date;
+                        $backDate = $record->back_date;
+                        $car = $record->car;
+
+                        // Calculate the number of days the car was rented
+                        $daysRented = $rentDate->diffInDays($today);
+
+                        // Calculate the total price
+                        $price = $car->price * $daysRented;
+
+                        // Calculate the penalty if the return_date exceeds the back_date
+                        $penalty = 0;
+                        if ($today->greaterThan($backDate)) {
+                            $daysLate = $backDate->diffInDays($today);
+                            $penalty = $car->penalty * $daysLate;
+                        }
+
+                        // Calculate the total amount
+                        $amount = $price + $penalty;
+
+                        // Update the record
+                        $record->update([
+                            'return_date' => $today,
+                            'price' => $price,
+                            'penalty' => $penalty,
+                            'amount' => $amount,
+                            'status' => 'returned',
+                        ]);
+                    })
+                    ->requiresConfirmation()
+                    ->visible(fn($record) => auth()->user()->role_id !== 3),
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
-                ExportBulkAction::make()
+                FilamentExportBulkAction::make('export')
+                    ->directDownload()
+                    ->disableAdditionalColumns()
+                    ->withHiddenColumns()
+                    ->defaultPageOrientation('landscape')
+                    ->defaultFormat('pdf')
+                    ->disableXlsx()
+                    ->disableCsv(),
             ]);
     }
 
@@ -123,6 +176,13 @@ class TransactionResource extends Resource
             'index' => Pages\ListTransactions::route('/'),
             'create' => Pages\CreateTransaction::route('/create'),
             'edit' => Pages\EditTransaction::route('/{record}/edit'),
+        ];
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            FilamentExportHeaderAction::make('Export'),
         ];
     }
 }
