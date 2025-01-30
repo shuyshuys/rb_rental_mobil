@@ -43,10 +43,10 @@ class CarResource extends Resource
                     ->offColor('danger')
                     ->onIcon('heroicon-s-check')
                     ->offIcon('heroicon-s-x')
-                    ->dehydrateStateUsing(fn($state) => $state ? 'online' : 'offline')
-                    ->mutateDehydratedStateUsing(fn($state) => $state === 'online')
+                    ->dehydrateStateUsing(fn($state) => $state ? 1 : 0)
+                    ->mutateDehydratedStateUsing(fn($state) => $state === 1)
                     ->afterStateHydrated(function ($component, $state) {
-                        $component->state($state === 'online');
+                        $component->state($state === 1);
                     }),
                 Forms\Components\TextInput::make('name')
                     ->required()
