@@ -60,8 +60,8 @@
                         @csrf
                     </form> --}}
                 @else
-                    <a href="{{ route('login') }}" class="text-white mr-4">Login</a>
-                    <a href="{{ route('register') }}" class="text-white">Register</a>
+                    <a href="{{ route('filament.auth.login') }}" class="text-white mr-4">Login</a>
+                    <a href="rental/register" class="text-white">Register</a>
                 @endauth
             </div>
         </div>
