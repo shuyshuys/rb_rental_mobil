@@ -74,7 +74,7 @@
                             {{ $car->color }}</h5>
                         <p class="text-gray-700 mb-2">Plat Nomor: {{ $car->license_number }}</p>
                         <p class="text-gray-700 mb-2">Tahun {{ $car->year }}</p>
-                        <p class="text-gray-700 mb-2">Harga Sewa: Rp{{ number_format($car->price, 0, ',', '.') }}</p>
+                        <p class="text-gray-700 mb-2">Harga Sewa: Rp {{ number_format($car->price, 0, ',', '.') }}</p>
                         <p class="mb-4 {{ $car->status ? 'text-green-500' : 'text-red-500' }}">
                             Status {{ $car->status ? 'Tersedia' : 'Tidak Tersedia' }}
                         </p>

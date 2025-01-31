@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use NumberFormatter;
 use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
@@ -106,9 +107,27 @@ class TransactionResource extends Resource
                     ->date(),
                 Tables\Columns\TextColumn::make('return_date')
                     ->date(),
-                Tables\Columns\TextColumn::make('price')->toggleable(fn() => auth()->user()->role_id !== 3),
-                Tables\Columns\TextColumn::make('amount')->toggleable(fn() => auth()->user()->role_id !== 3),
-                Tables\Columns\TextColumn::make('penalty')->toggleable(fn() => auth()->user()->role_id !== 3),
+                Tables\Columns\TextColumn::make('price')
+                    ->toggleable(fn() => auth()->user()->role_id !== 3)
+                    ->formatStateUsing(function ($state) {
+                        $formatter = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
+                        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
+                        return $formatter->formatCurrency($state, 'IDR');
+                    }),
+                Tables\Columns\TextColumn::make('amount')
+                    ->toggleable(fn() => auth()->user()->role_id !== 3)
+                    ->formatStateUsing(function ($state) {
+                        $formatter = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
+                        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
+                        return $formatter->formatCurrency($state, 'IDR');
+                    }),
+                Tables\Columns\TextColumn::make('penalty')
+                    ->toggleable(fn() => auth()->user()->role_id !== 3)
+                    ->formatStateUsing(function ($state) {
+                        $formatter = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
+                        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
+                        return $formatter->formatCurrency($state, 'IDR');
+                    }),
             ])
             ->filters([
                 //

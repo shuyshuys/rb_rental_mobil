@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use NumberFormatter;
 use App\Models\Car;
 use Filament\Forms;
 use Filament\Tables;
@@ -86,8 +87,18 @@ class CarResource extends Resource
                         }
                         return 'success';
                     }),
-                Tables\Columns\TextColumn::make('price'),
-                Tables\Columns\TextColumn::make('penalty'),
+                Tables\Columns\TextColumn::make('price')
+                    ->formatStateUsing(function ($state) {
+                        $formatter = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
+                        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
+                        return $formatter->formatCurrency($state, 'IDR');
+                    }),
+                Tables\Columns\TextColumn::make('penalty')
+                    ->formatStateUsing(function ($state) {
+                        $formatter = new NumberFormatter('id_ID', NumberFormatter::CURRENCY);
+                        $formatter->setAttribute(NumberFormatter::FRACTION_DIGITS, 0);
+                        return $formatter->formatCurrency($state, 'IDR');
+                    }),
             ])
             ->filters([
                 //
