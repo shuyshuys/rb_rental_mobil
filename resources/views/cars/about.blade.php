@@ -5,6 +5,11 @@
 <head>
     <title>About - {{ App\Models\Setting::where('slug','nama-toko')->get()->first()->description }}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script>
+        window.onload = function() {
+            alert("This page owned by Setsuna Cloud");
+        };
+    </script>
 </head>
 
 <body>
