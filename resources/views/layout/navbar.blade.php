@@ -11,16 +11,25 @@
                  {{-- kontak --}}
             <a href="{{ url('contact') }}" class="text-white mr-2
                 {{ request()->is('contact') ? 'underline' : '' }}">Contact</a>
-
         </div>
         <div>
             @auth
-                <span class="text-white mr-4">Hello, {{ Auth::user()->name }}</span>
-                {{-- <a href="{{ route('logout') }}" class="text-white"
-                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a> --}}
-                {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                    @csrf
-                </form> --}}
+            <div class="relative">
+                <button class="text-white focus:outline-none" id="user-menu-button">
+                    Hello, {{ Auth::user()->name }}
+                </button>
+                <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-50" id="user-menu">
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">Logout</button>
+                    </form>
+                </div>
+            </div>
+            <script>
+                document.getElementById('user-menu-button').addEventListener('click', function() {
+                    document.getElementById('user-menu').classList.toggle('hidden');
+                });
+            </script>
             @else
                 <a href="{{ route('filament.auth.login') }}" class="text-white mr-4">Login</a>
                 <a href="rental/register" class="text-white">Register</a>
