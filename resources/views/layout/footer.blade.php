@@ -16,21 +16,21 @@
             <div>
                 <h2 class="text-xl font-bold mb-4">Informasi</h2>
                 <ul>
-                    <li><a href="#" class="py-2 block hover:text-gray-400">About</a></li>
+                    <li><a href="about" class="py-2 block hover:text-gray-400">About</a></li>
                 </ul>
             </div>
             <div>
                 <h2 class="text-xl font-bold mb-4">Dukungan Pelanggan</h2>
                 <ul>
-                    <li><a href="#" class="py-2 block hover:text-gray-400">Contact Us</a></li>
+                    <li><a href="/contact" class="py-2 block hover:text-gray-400">Contact Us</a></li>
                 </ul>
             </div>
             <div>
                 <h2 class="text-xl font-bold mb-4">Punya Pertanyaan?</h2>
                 <ul>
-                    <li class="flex items-center"><span class="icon icon-map-marker mr-2"></span><span>Kartiasa, Kec. Sambas, Sambas</span></li>
-                    <li class="flex items-center mt-2"><a href="#"><span class="icon icon-phone mr-2"></span><span>089694527599</span></a></li>
-                    <li class="flex items-center mt-2"><a href="#"><span class="icon icon-envelope mr-2"></span><span>yusril.riandi16@gmail.com</span></a></li>
+                    <li class="flex items-center"><span class="icon icon-map-marker mr-2"></span><span>{{ App\Models\Setting::where('slug','alamat')->get()->first()->description }}</span></li>
+                    <li class="flex items-center mt-2"><a href="#"><span class="icon icon-phone mr-2"></span><span>{{ App\Models\Setting::where('slug','tlp')->get()->first()->description }}</span></a></li>
+                    <li class="flex items-center mt-2"><a href="#"><span class="icon icon-envelope mr-2"></span><span>{{ App\Models\Setting::where('slug','email')->get()->first()->description }}</span></a></li>
                 </ul>
             </div>
         </div>
