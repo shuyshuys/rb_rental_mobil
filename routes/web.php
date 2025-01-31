@@ -21,3 +21,11 @@ use App\Http\Controllers\CarController;
 
 
 Route::get('/', [CarController::class, 'index']);
+
+Route::get('/contact', function () {
+    return view('cars.contact');
+});
+
+Route::get('/about', function () {
+    return view('cars.about');
+});

@@ -3,7 +3,7 @@
 <html>
 
 <head>
-    <title>Perentalan Mobil</title>
+    <title>{{ App\Models\Setting::where('slug','nama-toko')->get()->first()->description }}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .carousel {
@@ -48,24 +48,7 @@
 </head>
 
 <body>
-    <nav class="bg-gray-800 p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="{{ url('/') }}" class="text-white text-lg font-bold">Perentalan Mobil</a>
-            <div>
-                @auth
-                    <span class="text-white mr-4">Hello, {{ Auth::user()->name }}</span>
-                    {{-- <a href="{{ route('logout') }}" class="text-white"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a> --}}
-                    {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                        @csrf
-                    </form> --}}
-                @else
-                    <a href="{{ route('filament.auth.login') }}" class="text-white mr-4">Login</a>
-                    <a href="rental/register" class="text-white">Register</a>
-                @endauth
-            </div>
-        </div>
-    </nav>
+    @include('layout.navbar')
     <div class="container mx-auto mt-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($cars as $car)
@@ -106,5 +89,12 @@
         }
     </script>
 </body>
+
+<!-- resources/views/cars/index.blade.php -->
+<!-- ...existing code... -->
+
+@include('layout.footer')
+
+<!-- ...existing code... -->
 
 </html>
