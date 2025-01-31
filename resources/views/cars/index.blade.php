@@ -49,6 +49,15 @@
 
 <body>
     @include('layout.navbar')
+    <section class="relative bg-cover bg-center h-screen" style="background-image: url('{{ asset('images/images.jpeg') }}">
+        <div class="absolute inset-0 bg-black opacity-50"></div>
+        <div class="container mx-auto h-full flex items-end pb-10">
+            <div class="text-white">
+                <p class="text-lg"><a href="index.html" class="hover:underline">Beranda</a> <span class="mx-2">/</span> Homepage</p>
+                <h1 class="text-4xl font-bold">Homepage</h1>
+            </div>
+        </div>
+    </section>
     <div class="container mx-auto mt-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($cars as $car)
