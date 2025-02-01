@@ -29,8 +29,8 @@
                 <h2 class="text-xl font-bold mb-4">Punya Pertanyaan?</h2>
                 <ul>
                     <li class="flex items-center"><span class="icon icon-map-marker mr-2"></span><span>{{ App\Models\Setting::where('slug','alamat')->get()->first()->description }}</span></li>
-                    <li class="flex items-center mt-2"><a href="#"><span class="icon icon-phone mr-2"></span><span>{{ App\Models\Setting::where('slug','tlp')->get()->first()->description }}</span></a></li>
-                    <li class="flex items-center mt-2"><a href="#"><span class="icon icon-envelope mr-2"></span><span>{{ App\Models\Setting::where('slug','email')->get()->first()->description }}</span></a></li>
+                    <li class="flex items-center mt-2"><a href="tel:{{ App\Models\Setting::where('slug','tlp')->get()->first()->description }}"><span class="icon icon-phone mr-2"></span><span>{{ App\Models\Setting::where('slug','tlp')->get()->first()->description }}</span></a></li>
+                    <li class="flex items-center mt-2"><a href="mailto:{{ App\Models\Setting::where('slug','email')->get()->first()->description }}"><span class="icon icon-envelope mr-2"></span><span>{{ App\Models\Setting::where('slug','email')->get()->first()->description }}</span></a></li>
                 </ul>
             </div>
         </div>
