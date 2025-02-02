@@ -38,7 +38,9 @@ class StatsOverview extends BaseWidget
             Card::make('Cars Available', $carDescription)
                 ->color('primary'),
 
-            Card::make('Total Customers', User::where('role_id', 3)->count())
+            Card::make('Total Customers', Customer::whereHas('user', function ($query) {
+    $query->where('role_id', 3);
+})->count())
                 ->description($description)
                 ->descriptionIcon($descriptionIcon)
                 ->color($color),
