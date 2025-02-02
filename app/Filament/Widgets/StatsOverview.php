@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Car;
+use App\Models\Customer;
 use App\Models\User;
 use Filament\Widgets\StatsOverviewWidget\Card;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
